@@ -169,7 +169,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     ])->toArray(),
-
+    'aliases' => [
+        // ...
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+    ],
     /*
     |--------------------------------------------------------------------------
     | Class Aliases

@@ -11,8 +11,8 @@
             <div class="fp__breadcrumb_text">
                 <h1>user dashboard</h1>
                 <ul>
-                    <li><a href="index.html">home</a></li>
-                    <li><a href="#">dashboard</a></li>
+                    <li><a href="{{ url('/') }}">home</a></li>
+                    <li><a href="javascript:;">dashboard</a></li>
                 </ul>
             </div>
         </div>
@@ -34,11 +34,13 @@
                     <div class="fp__dashboard_menu">
                         <div class="dasboard_header">
                             <div class="dasboard_header_img">
-                                <img src="images/comment_img_2.png" alt="user" class="img-fluid w-100">
+                                <img src="{{ auth()->user()->avatar }}" alt="user" class="img-fluid w-100">
                                 <label for="upload"><i class="far fa-camera"></i></label>
-                                <input type="file" id="upload" hidden>
+                                <form id="avatar_form">
+                                    <input type="file" id="upload" hidden name="avatar">
+                                </form>
                             </div>
-                            <h2>hasib ahmed</h2>
+                            <h2>{{ auth()->user()->name }}</h2>
                         </div>
                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true"><span><i class="fas fa-user"></i></span> Parsonal Info</button>
@@ -53,8 +55,14 @@
 
                             <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false"><span><i class="fas fa-user-lock"></i></span> Change Password </button>
 
-                            <button class="nav-link" type="button"><span> <i class="fas fa-sign-out-alt"></i>
-                                </span> Logout</button>
+                            <!-- Authentication -->
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+
+                                <button style="width: 100%;" class="nav-link" onclick="event.preventDefault();
+                                    this.closest('form').submit();" type="button"><span> <i class="fas fa-sign-out-alt"></i>
+                                    </span> Logout</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -98,39 +106,30 @@
                                         </h4>
 
                                         <div class="personal_info_text">
-                                            <p><span>Name:</span> Hasib Ahmed</p>
-                                            <p><span>Email:</span> hasibahmed@gmail.com</p>
-                                            <p><span>Phone:</span> 023 434 54354</p>
-                                            <p><span>Address:</span> 7232 Broadway Suite 308, Jackson Heights,
-                                                11372, NY, United States </p>
+                                            <p><span>Name:</span> {{ auth()->user()->name }}</p>
+                                            <p><span>Email:</span> {{ auth()->user()->email }}</p>
                                         </div>
 
                                         <div class="fp_dash_personal_info_edit comment_input p-0">
-                                            <form>
+                                            <form method="POST" action="{{ route('profile.update') }}">
+                                                @csrf
+                                                @method('PUT')
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="fp__comment_imput_single">
                                                             <label>name</label>
-                                                            <input type="text" placeholder="Name">
+                                                            <input type="text" placeholder="Name" name="name" value="{{ auth()->user()->name }}">
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-6 col-lg-6">
+                                                    <div class="col-xl-12 col-lg-12">
                                                         <div class="fp__comment_imput_single">
                                                             <label>email</label>
-                                                            <input type="email" placeholder="Email">
+                                                            <input type="email" placeholder="Email" name="email" value="{{ auth()->user()->email }}">
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-6 col-lg-6">
-                                                        <div class="fp__comment_imput_single">
-                                                            <label>phone</label>
-                                                            <input type="text" placeholder="Phone">
-                                                        </div>
-                                                    </div>
+
                                                     <div class="col-xl-12">
-                                                        <div class="fp__comment_imput_single">
-                                                            <label>address</label>
-                                                            <textarea rows="4" placeholder="Address"></textarea>
-                                                        </div>
+
                                                         <button type="submit" class="common_btn">submit</button>
                                                     </div>
                                                 </div>
@@ -160,7 +159,8 @@
                                                             </label>
                                                         </div>
                                                         <ul>
-                                                            <li><a class="dash_edit_btn"><i class="far fa-edit"></i></a></li>
+                                                            <li><a class="dash_edit_btn"><i class="far fa-edit"></i></a>
+                                                            </li>
                                                             <li><a class="dash_del_icon"><i class="fas fa-trash-alt"></i></a>
                                                             </li>
                                                         </ul>
@@ -178,7 +178,8 @@
                                                             </label>
                                                         </div>
                                                         <ul>
-                                                            <li><a class="dash_edit_btn"><i class="far fa-edit"></i></a></li>
+                                                            <li><a class="dash_edit_btn"><i class="far fa-edit"></i></a>
+                                                            </li>
                                                             <li><a class="dash_del_icon"><i class="fas fa-trash-alt"></i></a>
                                                             </li>
                                                         </ul>
@@ -197,7 +198,8 @@
                                                             </label>
                                                         </div>
                                                         <ul>
-                                                            <li><a class="dash_edit_btn"><i class="far fa-edit"></i></a></li>
+                                                            <li><a class="dash_edit_btn"><i class="far fa-edit"></i></a>
+                                                            </li>
                                                             <li><a class="dash_del_icon"><i class="fas fa-trash-alt"></i></a>
                                                             </li>
                                                         </ul>
@@ -215,7 +217,8 @@
                                                             </label>
                                                         </div>
                                                         <ul>
-                                                            <li><a class="dash_edit_btn"><i class="far fa-edit"></i></a></li>
+                                                            <li><a class="dash_edit_btn"><i class="far fa-edit"></i></a>
+                                                            </li>
                                                             <li><a class="dash_del_icon"><i class="fas fa-trash-alt"></i></a>
                                                             </li>
                                                         </ul>
@@ -962,9 +965,11 @@
                                                             <li class="page-item">
                                                                 <a class="page-link" href="#"><i class="fas fa-long-arrow-alt-left"></i></a>
                                                             </li>
-                                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">1</a>
+                                                            </li>
                                                             <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">3</a>
+                                                            </li>
                                                             <li class="page-item">
                                                                 <a class="page-link" href="#"><i class="fas fa-long-arrow-alt-right"></i></a>
                                                             </li>
@@ -1065,38 +1070,7 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                                <div class="fp_dashboard_body fp__change_password">
-                                    <div class="fp__review_input">
-                                        <h3>change password</h3>
-                                        <div class="comment_input pt-0">
-                                            <form>
-                                                <div class="row">
-                                                    <div class="col-xl-6">
-                                                        <div class="fp__comment_imput_single">
-                                                            <label>Current Password</label>
-                                                            <input type="password" placeholder="Current Password">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-6">
-                                                        <div class="fp__comment_imput_single">
-                                                            <label>New Password</label>
-                                                            <input type="password" placeholder="New Password">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-12">
-                                                        <div class="fp__comment_imput_single">
-                                                            <label>confirm Password</label>
-                                                            <input type="password" placeholder="Confirm Password">
-                                                        </div>
-                                                        <button type="submit" class="common_btn mt_20">submit</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('frontend.dashboard.change-password')
 
                         </div>
                     </div>
@@ -1188,6 +1162,33 @@
 </div>
 <!-- CART POPUT END -->
 <!--=========================
-        DASHBOARD END 
+        DASHBOARD END
     ==========================-->
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('#upload').on('change', function() {
+            let form = $('#avatar_form')[0];
+            let formData = new FormData(form);
+
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('profile.avatar.update') }}",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status === 'success') {
+                        window.location.reload();
+                    }
+                },
+                error: function(error) {
+                    console.error(response);
+                }
+            })
+        })
+    })
+</script>
+@endpush
